@@ -5,9 +5,54 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: aliceblue;
+}
+
+.App {
+  text-align: center;
+}
+
+.optionthing{
+  margin-top: 4px;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: Arial, Helvetica, sans-serif
+}
+
+#datas{
+  width: 524px;
+  height: 60px;
+  font-size: 18px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 8px;
+}
+
+.optionfield{
+  background-color: white;
+}
+#submitbtn{
+  height: 60px;
+  width: 120px;
+  padding: 2px 8px;
+  border: none;
+  border-radius: 6px;
+  font-size: 20px;
+  color: white;
+  background-color: green;
+  margin-left: 8px;
+}
+
+#datas:focus{
+  outline-color: green;
+}
+#submitbtn:focus{
+  outline: none;
+}
+#submitbtn:hover{
+  cursor: pointer;
+}
+.optionfield:hover{
+  background-color: #e0dede;
 }
