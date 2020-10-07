@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import OptionComponent from './OptionComponent';
+import RecentSearch from './RecentSearch';
 class AutoComplete extends React.Component{
     
     constructor(props){
@@ -45,12 +46,53 @@ class AutoComplete extends React.Component{
     handleOnFocus(){
         document.getElementsByClassName('optionthing')[0].style.display = 'block';
     }
+    
     onhandleClick(place, country){
 
         //Add whatever operation you want to add here
-        console.log(`You clicked on ${place}, ${country}`);     
+
+        //Clear the input field
+        this.setState({input_value: ""});
+
+        //Get the recent searches from localstorage
+        let localstorage_arr = [];
+
+        if(localStorage.getItem('recent_searches')){
+            let temp = localStorage.getItem('recent_searches');
+            localstorage_arr = JSON.parse(temp);
+        }
+
+        //Limit the size to 4 searches
+        if(localstorage_arr.length >= 4){
+
+            //Remove the first element from array and push a new element
+            localstorage_arr.shift();   
+            const obj = {place: place, country: country};
+            localstorage_arr.push(obj);
+        }
+        else{
+            // If the array is not full
+            const obj = {place: place, country: country}
+            localstorage_arr.push(obj);
+        }
+
+        // Setting values to  localStorage
+        let temp2 = JSON.stringify(localstorage_arr);
+        localStorage.setItem('recent_searches', temp2);
     }
+
     render(){
+        //getting the localstorage values
+        let temp = localStorage.getItem('recent_searches');
+        let recent_render;
+        if(temp){
+            let temp2 = JSON.parse(temp);
+            temp2.reverse();
+            // Mapping recent searches to RecentSearch component
+            recent_render = temp2.map(val => {
+                return <RecentSearch key={val.place} place = {val.place} country = {val.country} />
+            });
+        }
 
         // Mapping each obtained response from get request to OptionComponent
         let optioncomp = this.state.response_arr.map((val) => {
@@ -98,6 +140,18 @@ class AutoComplete extends React.Component{
                         please type {`${3 - this.state.input_value.length}`} more character to get suggestions 
                     </div> : null}
                     {optioncomp}
+                </div>
+                <div 
+                    className= "suggestions" 
+                    style = {{display: "flex",
+                            borderRadius: "8px", 
+                            flexDirection:"row", 
+                            width:"524px",
+                            margin: "auto",
+                            marginTop :"18px",
+                            position: "relative", 
+                            right: "64px"}}>
+                    {this.state.input_value.length === 0 ? recent_render  : null}
                 </div>
             </div>
         )

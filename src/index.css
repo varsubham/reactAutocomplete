@@ -56,3 +56,9 @@ code {
 .optionfield:hover{
   background-color: #e0dede;
 }
+.recentsearch{
+  background-color: rgb(236, 236, 236);
+}
+.recentsearch:hover{
+  background-color: #d6d6d6;
+}
